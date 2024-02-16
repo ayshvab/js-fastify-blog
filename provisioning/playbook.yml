@@ -31,11 +31,6 @@
             - name: "{{ db_user }}"
               pass: "{{ db_password }}"
               state: present
-        # - postgresql_user_privileges:
-        #     - name: "{{ db_user }}"
-        #       db: "{{ db_name }}"
-        #       priv: "ALL"
-        #       role_attr_flags: "LOGIN,CREATEDB"
   pre_tasks:
     - name: Install acl
       become: true
@@ -53,3 +48,11 @@
       ansible.builtin.command: update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
       when: locale_gen_result.changed
       tags: [locale]
+    - name: Programming essential
+      become: true
+      ansible.builtin.apt:
+        name: 
+          - make
+          - build-essential
+        update_cache: true
+        state: present
